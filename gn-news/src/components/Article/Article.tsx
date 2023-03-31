@@ -2,6 +2,8 @@ import { FC } from 'react'
 import { Grid, Card, styled, css, Typography } from '@mui/material'
 
 import { TArticle } from '@/redux/slices/news'
+import { useArticlePopperLogic } from './ArticlePopper/ArticlePopper.logic'
+import { ArticlePopper } from './ArticlePopper'
 
 const StyledCard = styled(Card)(
 	({ theme }) => css`
@@ -44,16 +46,26 @@ const Article: FC<{ article: TArticle }> = ({ article }) => {
 	const { description, title, urlToImage, source } = article || {}
 	const { name } = source || {}
 
+	const { anchorEl, handleOpenPopper, handleClose, open, id } =
+		useArticlePopperLogic()
+
 	return (
 		<Grid item xs={12} md={6} lg={4}>
-			<StyledCard>
+			<StyledCard aria-describedby={id} onClick={handleOpenPopper}>
 				<div>
 					<Title>{title}</Title>
 					<SourceTypography>{name}</SourceTypography>
 				</div>
 				{urlToImage && <Image src={urlToImage || undefined} alt={title} />}
-				<Typography variant='subtitle2'>{description}</Typography>
+				<Typography variant='subtitle2'>{description ?? 'N/D'}</Typography>
 			</StyledCard>
+			<ArticlePopper
+				anchorEl={anchorEl}
+				onClose={handleClose}
+				open={open}
+				id={id}
+				article={article}
+			/>
 		</Grid>
 	)
 }

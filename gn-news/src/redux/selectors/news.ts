@@ -6,4 +6,4 @@ export const selectTopHeadlinesState = (state: RootState) =>
 export const selectTopHeadlines = (state: RootState) =>
 	state.news.topHeadlines.articles
 export const selectTopHeadlinesCollectionCount = (state: RootState) =>
-	state.news.topHeadlines.totalResults
+	state.news.topHeadlines.articlesCount

@@ -8,8 +8,9 @@ import { format } from 'date-fns'
 
 const Wrapper = styled('footer')(
 	({ theme }) => css`
-		position: relative;
+		position: absolute;
 		bottom: 0;
+		width: 100%;
 		border-top: 2px solid ${theme.palette.divider};
 		padding: ${theme.spacing(6, 3)};
 		display: flex;

@@ -47,6 +47,7 @@ interface NewsState {
 		error: null | SerializedError
 		articles: null | TArticle[]
 		totalResults: number
+		articlesCount: number
 	}
 }
 
@@ -58,6 +59,7 @@ const initialState: NewsState = {
 		error: null,
 		articles: null,
 		totalResults: 0,
+		articlesCount: 0,
 	},
 }
 
@@ -86,6 +88,7 @@ export const newsSlice = createSlice({
 					...state.topHeadlines,
 					articles,
 					totalResults,
+					articlesCount: articles?.length,
 				}
 			})
 			.addCase(fetchTopHeadlines.rejected, (state, action) => {

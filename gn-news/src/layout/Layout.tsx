@@ -24,8 +24,8 @@ const Layout: FC = () => {
 		<Box sx={{ display: 'flex', minHeight: '100vh' }}>
 			<TopBar open={open} handleDrawerOpen={handleDrawerOpen} />
 			<Sidebar open={open} handleDrawerOpen={handleDrawerOpen} />
-			<Box component='main' sx={{ flexGrow: 1 }}>
-				<Box sx={{ p: 3, marginBottom: 5 }}>
+			<Box component='main' sx={{ flexGrow: 1, position: 'relative' }}>
+				<Box sx={{ p: 3, marginBottom: 18 }}>
 					<DrawerHeader />
 					<Outlet />
 				</Box>

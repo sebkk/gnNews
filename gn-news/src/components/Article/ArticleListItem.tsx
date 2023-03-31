@@ -1,10 +1,12 @@
 import { FC } from 'react'
 import { Grid, Card, styled, css } from '@mui/material'
+import { format } from 'date-fns'
 
 import { TArticle } from '@/redux/slices/news'
 
+import { ArticlePopper } from './ArticlePopper'
+import { useArticlePopperLogic } from './ArticlePopper/ArticlePopper.logic'
 import { Title, SourceTypography } from './Article'
-import { format } from 'date-fns'
 
 const StyledCard = styled(Card)(
 	({ theme }) => css`
@@ -31,9 +33,12 @@ const ArticleListItem: FC<{ article: TArticle }> = ({ article }) => {
 	const { title, source, publishedAt } = article || {}
 	const { name } = source || {}
 
+	const { anchorEl, handleOpenPopper, handleClose, open, id } =
+		useArticlePopperLogic()
+
 	return (
 		<Grid item xs={12}>
-			<StyledCard>
+			<StyledCard aria-describedby={id} onClick={handleOpenPopper}>
 				<Title variant='subtitle2'>{title}</Title>
 				<div>
 					<SourceTypography>{name}</SourceTypography>
@@ -42,6 +47,13 @@ const ArticleListItem: FC<{ article: TArticle }> = ({ article }) => {
 					</SourceTypography>
 				</div>
 			</StyledCard>
+			<ArticlePopper
+				anchorEl={anchorEl}
+				onClose={handleClose}
+				open={open}
+				id={id}
+				article={article}
+			/>
 		</Grid>
 	)
 }
