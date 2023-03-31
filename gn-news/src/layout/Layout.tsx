@@ -20,10 +20,10 @@ const Layout: FC = () => {
 	const handleDrawerOpen = (open: boolean) => setOpen(open)
 
 	return (
-		<Box sx={{ display: 'flex' }}>
+		<Box sx={{ display: 'flex', height: '100vh' }}>
 			<TopBar open={open} handleDrawerOpen={handleDrawerOpen} />
 			<Sidebar open={open} handleDrawerOpen={handleDrawerOpen} />
-			<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+			<Box component='main' sx={{ flexGrow: 1, p: 3, height: '100%' }}>
 				<DrawerHeader />
 				<Outlet />
 			</Box>

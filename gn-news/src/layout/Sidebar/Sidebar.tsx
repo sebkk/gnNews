@@ -11,11 +11,15 @@ import {
 	styled,
 	Theme,
 	CSSObject,
+	ListItemAvatar,
+	Avatar,
 } from '@mui/material'
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MailIcon from '@mui/icons-material/Mail'
+
+import { COUNTRIES } from '../../constants'
 
 const drawerWidth = 240
 
@@ -65,6 +69,11 @@ const Drawer = styled(MuiDrawer, {
 	}),
 }))
 
+const Flag = styled('img')(() => ({
+	width: 30,
+	height: 'auto',
+}))
+
 const Sidebar: FC<{
 	open: boolean
 	handleDrawerOpen: (open: boolean) => void
@@ -77,8 +86,8 @@ const Sidebar: FC<{
 		</DrawerHeader>
 		<Divider />
 		<List>
-			{['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-				<ListItem key={text} disablePadding sx={{ display: 'block' }}>
+			{COUNTRIES.map(({ name, flag, code }) => (
+				<ListItem key={code} disablePadding sx={{ display: 'block' }}>
 					<ListItemButton
 						sx={{
 							minHeight: 48,
@@ -86,41 +95,18 @@ const Sidebar: FC<{
 							px: 2.5,
 						}}
 					>
-						<ListItemIcon
+						<ListItemAvatar
 							sx={{
 								minWidth: 0,
 								mr: open ? 3 : 'auto',
+								display: 'flex',
 								justifyContent: 'center',
+								alignItems: 'center',
 							}}
 						>
-							{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-						</ListItemIcon>
-						<ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-					</ListItemButton>
-				</ListItem>
-			))}
-		</List>
-		<Divider />
-		<List>
-			{['All mail', 'Trash', 'Spam'].map((text, index) => (
-				<ListItem key={text} disablePadding sx={{ display: 'block' }}>
-					<ListItemButton
-						sx={{
-							minHeight: 48,
-							justifyContent: open ? 'initial' : 'center',
-							px: 2.5,
-						}}
-					>
-						<ListItemIcon
-							sx={{
-								minWidth: 0,
-								mr: open ? 3 : 'auto',
-								justifyContent: 'center',
-							}}
-						>
-							{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-						</ListItemIcon>
-						<ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+							<Flag src={flag} alt={code} />
+						</ListItemAvatar>
+						<ListItemText primary={name} sx={{ opacity: open ? 1 : 0 }} />
 					</ListItemButton>
 				</ListItem>
 			))}
