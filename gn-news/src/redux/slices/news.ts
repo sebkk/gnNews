@@ -25,6 +25,26 @@ export const fetchTopHeadlines = createAsyncThunk(
 	}
 )
 
+export const fetchCountryNews = createAsyncThunk(
+	'news/countryNews',
+	async (countryCode: string | undefined, { rejectWithValue }) => {
+		try {
+			const { data } = await api.get(
+				`top-headlines?country=${countryCode}&page=1`
+			)
+
+			return {
+				articles: data.articles,
+				totalResults: data.totalResults,
+			}
+		} catch (err: any) {
+			console.error(err)
+
+			return rejectWithValue(err.response.data.error)
+		}
+	}
+)
+
 export interface TArticle {
 	author: string | null
 	content: string
@@ -41,7 +61,13 @@ export interface TArticle {
 
 interface NewsState {
 	selectedView: 'module' | 'list'
-	countryNews: any
+	countryNews: {
+		loading: boolean
+		error: null | SerializedError
+		articles: null | TArticle[]
+		totalResults: number
+		articlesCount: number
+	}
 	topHeadlines: {
 		loading: boolean
 		error: null | SerializedError
@@ -53,7 +79,13 @@ interface NewsState {
 
 const initialState: NewsState = {
 	selectedView: 'module',
-	countryNews: null,
+	countryNews: {
+		loading: true,
+		error: null,
+		articles: null,
+		totalResults: 0,
+		articlesCount: 0,
+	},
 	topHeadlines: {
 		loading: true,
 		error: null,
@@ -96,6 +128,31 @@ export const newsSlice = createSlice({
 
 				state.topHeadlines = {
 					...state.topHeadlines,
+					loading: false,
+					error,
+				}
+			})
+			.addCase(fetchCountryNews.pending, state => {
+				state.countryNews = {
+					...state.countryNews,
+					loading: true,
+				}
+			})
+			.addCase(fetchCountryNews.fulfilled, (state, action) => {
+				const { articles, totalResults } = action.payload
+
+				state.countryNews = {
+					...state.countryNews,
+					articles,
+					totalResults,
+					articlesCount: articles?.length,
+				}
+			})
+			.addCase(fetchCountryNews.rejected, (state, action) => {
+				const error = action.error
+
+				state.countryNews = {
+					...state.countryNews,
 					loading: false,
 					error,
 				}

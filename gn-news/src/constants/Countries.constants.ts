@@ -40,11 +40,6 @@ export const COUNTRIES = [
 		flag: 'https://flagcdn.com/it.svg?w=16',
 	},
 	{
-		name: 'Spain',
-		code: 'ES',
-		flag: 'https://flagcdn.com/es.svg?w=16',
-	},
-	{
 		name: 'Portugal',
 		code: 'PT',
 		flag: 'https://flagcdn.com/pt.svg?w=16',

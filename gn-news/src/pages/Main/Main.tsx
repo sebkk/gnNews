@@ -5,7 +5,7 @@ import { Grid, styled, css } from '@mui/material'
 import { selectSelectedView, selectTopHeadlines } from '../../redux/selectors'
 import { Article, ArticleListItem } from '../../components'
 
-const Container = styled(Grid)(
+export const Container = styled(Grid)(
 	css`
 		width: 100%;
 	`

@@ -33,7 +33,7 @@ const ArticlePopper: FC<{
 			<Content>
 				<Typography variant='h5'>{author ?? 'N/D'}</Typography>
 				<Divider />
-				<Typography>{content ?? description}</Typography>
+				<Typography>{content ?? description ?? 'N/D'}</Typography>
 				<Divider />
 				<a href={url} rel='noreferrer' target='_blank'>
 					Go to article
