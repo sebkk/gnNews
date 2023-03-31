@@ -6,18 +6,15 @@ import {
 	IconButton,
 	ListItem,
 	ListItemButton,
-	ListItemIcon,
 	ListItemText,
 	styled,
 	Theme,
 	CSSObject,
 	ListItemAvatar,
-	Avatar,
 } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
-import MailIcon from '@mui/icons-material/Mail'
 
 import { COUNTRIES } from '../../constants'
 
@@ -77,41 +74,46 @@ const Flag = styled('img')(() => ({
 const Sidebar: FC<{
 	open: boolean
 	handleDrawerOpen: (open: boolean) => void
-}> = ({ open, handleDrawerOpen }) => (
-	<Drawer variant='permanent' open={open}>
-		<DrawerHeader>
-			<IconButton onClick={() => handleDrawerOpen(false)}>
-				<ChevronLeftIcon />
-			</IconButton>
-		</DrawerHeader>
-		<Divider />
-		<List>
-			{COUNTRIES.map(({ name, flag, code }) => (
-				<ListItem key={code} disablePadding sx={{ display: 'block' }}>
-					<ListItemButton
-						sx={{
-							minHeight: 48,
-							justifyContent: open ? 'initial' : 'center',
-							px: 2.5,
-						}}
-					>
-						<ListItemAvatar
+}> = ({ open, handleDrawerOpen }) => {
+	const navigate = useNavigate()
+
+	return (
+		<Drawer variant='permanent' open={open}>
+			<DrawerHeader>
+				<IconButton onClick={() => handleDrawerOpen(false)}>
+					<ChevronLeftIcon />
+				</IconButton>
+			</DrawerHeader>
+			<Divider />
+			<List>
+				{COUNTRIES.map(({ name, flag, code }) => (
+					<ListItem key={code} disablePadding sx={{ display: 'block' }}>
+						<ListItemButton
 							sx={{
-								minWidth: 0,
-								mr: open ? 3 : 'auto',
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
+								minHeight: 48,
+								justifyContent: open ? 'initial' : 'center',
+								px: 2.5,
 							}}
+							onClick={() => navigate(`/country/${code}`)}
 						>
-							<Flag src={flag} alt={code} />
-						</ListItemAvatar>
-						<ListItemText primary={name} sx={{ opacity: open ? 1 : 0 }} />
-					</ListItemButton>
-				</ListItem>
-			))}
-		</List>
-	</Drawer>
-)
+							<ListItemAvatar
+								sx={{
+									minWidth: 0,
+									mr: open ? 3 : 'auto',
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<Flag src={flag} alt={code} />
+							</ListItemAvatar>
+							<ListItemText primary={name} sx={{ opacity: open ? 1 : 0 }} />
+						</ListItemButton>
+					</ListItem>
+				))}
+			</List>
+		</Drawer>
+	)
+}
 
 export default Sidebar

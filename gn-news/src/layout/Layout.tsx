@@ -5,6 +5,7 @@ import { Box, styled } from '@mui/material'
 
 import { Sidebar } from './Sidebar'
 import { TopBar } from './TopBar'
+import { Footer } from './Footer'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -20,12 +21,15 @@ const Layout: FC = () => {
 	const handleDrawerOpen = (open: boolean) => setOpen(open)
 
 	return (
-		<Box sx={{ display: 'flex', height: '100vh' }}>
+		<Box sx={{ display: 'flex', minHeight: '100vh' }}>
 			<TopBar open={open} handleDrawerOpen={handleDrawerOpen} />
 			<Sidebar open={open} handleDrawerOpen={handleDrawerOpen} />
-			<Box component='main' sx={{ flexGrow: 1, p: 3, height: '100%' }}>
-				<DrawerHeader />
-				<Outlet />
+			<Box component='main' sx={{ flexGrow: 1 }}>
+				<Box sx={{ p: 3, marginBottom: 5 }}>
+					<DrawerHeader />
+					<Outlet />
+				</Box>
+				<Footer />
 			</Box>
 		</Box>
 	)

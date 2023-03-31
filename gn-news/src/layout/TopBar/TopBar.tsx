@@ -16,6 +16,9 @@ import ViewListIcon from '@mui/icons-material/ViewList'
 import ViewModuleIcon from '@mui/icons-material/ViewModule'
 
 import MenuIcon from '@mui/icons-material/Menu'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectSelectedView } from '../../redux/selectors'
+import { changeView } from '../../redux/slices/news'
 
 const drawerWidth = 240
 
@@ -55,8 +58,10 @@ const TopBar: FC<{
 	handleDrawerOpen: (open: boolean) => void
 }> = ({ open, handleDrawerOpen }) => {
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
 
 	const handleNavigate = () => navigate('/')
+	const selectedView = useSelector(selectSelectedView)
 
 	return (
 		<AppBar position='fixed' open={open}>
@@ -76,7 +81,14 @@ const TopBar: FC<{
 					</IconButton>
 					<StyledButton onClick={handleNavigate}>News Page</StyledButton>
 				</Box>
-				<ToggleButtonGroup exclusive color='secondary'>
+				<ToggleButtonGroup
+					value={selectedView}
+					exclusive
+					color='secondary'
+					onChange={(_, value: 'module' | 'list') =>
+						dispatch(changeView(value))
+					}
+				>
 					<ToggleButton value='module' aria-label='module'>
 						<ViewModuleIcon />
 					</ToggleButton>
